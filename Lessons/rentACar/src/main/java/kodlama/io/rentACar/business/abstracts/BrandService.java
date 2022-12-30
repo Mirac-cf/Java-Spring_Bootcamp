@@ -8,4 +8,5 @@ import kodlama.io.rentACar.business.responses.GetAllBrandsResponse;
 public interface BrandService {
 	List<GetAllBrandsResponse> getAll();
 	void add(CreateBrandRequest createBrandRequest);
+	//heloo
 }
