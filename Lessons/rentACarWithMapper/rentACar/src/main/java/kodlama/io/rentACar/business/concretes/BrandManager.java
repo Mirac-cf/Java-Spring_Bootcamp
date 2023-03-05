@@ -4,10 +4,11 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import kodlama.io.rentACar.business.abstracts.BrandService;
-import kodlama.io.rentACar.business.requests.CreateBrandRequest;
-import kodlama.io.rentACar.business.requests.UpdateBrandRequest;
-import kodlama.io.rentACar.business.responses.GetAllBrandsResponse;
-import kodlama.io.rentACar.business.responses.GetByIdBrandsResponse;
+import kodlama.io.rentACar.business.requests.brand.CreateBrandRequest;
+import kodlama.io.rentACar.business.requests.brand.UpdateBrandRequest;
+import kodlama.io.rentACar.business.responses.brand.GetAllBrandsResponse;
+import kodlama.io.rentACar.business.responses.brand.GetByIdBrandsResponse;
+import kodlama.io.rentACar.business.rules.BrandBusinessRules;
 import kodlama.io.rentACar.core.utilities.mappers.ModelMapperService;
 import kodlama.io.rentACar.dataAccess.abstracts.BrandRepository;
 import kodlama.io.rentACar.entities.concretes.Brand;
@@ -18,7 +19,7 @@ import lombok.AllArgsConstructor;
 public class BrandManager implements BrandService{
 	private BrandRepository brandRepository;
 	private ModelMapperService modelMapperService;
-
+	private BrandBusinessRules brandBusinessRules;
 	
 	@Override
 	public List<GetAllBrandsResponse> getAll() {
@@ -48,8 +49,7 @@ public class BrandManager implements BrandService{
 
 	@Override
 	public void add(CreateBrandRequest createBrandRequest) {
-		//Brand brand = new Brand();
-		//brand.setName(createBrandRequest.getName());
+		this.brandBusinessRules.checkIfBrandNameExists(createBrandRequest.getName());
 		
 		Brand brand = this.modelMapperService.forRequest().map(createBrandRequest, Brand.class);
 		// map ile gelen createBrandRequest'i Brands tipine cevirdik ve tek tek yazmaktan kurtulduk
@@ -62,6 +62,8 @@ public class BrandManager implements BrandService{
 
 	@Override
 	public GetByIdBrandsResponse getById(int id) {
+		this.brandBusinessRules.checkIfBrandIdExists(id);
+		
 		Optional<Brand> brand = brandRepository.findById(id);
 		GetByIdBrandsResponse getByIdBrandsResponse = this.modelMapperService.forRequest().map(brand, GetByIdBrandsResponse.class);
 		return getByIdBrandsResponse;
@@ -70,6 +72,9 @@ public class BrandManager implements BrandService{
 
 	@Override
 	public void update(UpdateBrandRequest updateBrandRequest) {
+		this.brandBusinessRules.checkIfBrandIdExists(updateBrandRequest.getId());
+		this.brandBusinessRules.checkIfBrandNameExists(updateBrandRequest.getName());
+		
 		Brand brand = this.modelMapperService.forRequest().map(updateBrandRequest, Brand.class);
 		this.brandRepository.save(brand);
 	}
@@ -77,6 +82,7 @@ public class BrandManager implements BrandService{
 
 	@Override
 	public void delete(int id) {
+		this.brandBusinessRules.checkIfBrandIdExists(id);
 		brandRepository.deleteById(id);;
 	}
 

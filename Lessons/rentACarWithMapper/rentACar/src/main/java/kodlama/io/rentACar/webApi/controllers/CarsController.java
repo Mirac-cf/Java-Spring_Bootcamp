@@ -1,9 +1,7 @@
 package kodlama.io.rentACar.webApi.controllers;
 
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,49 +12,52 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import kodlama.io.rentACar.business.abstracts.BrandService;
-import kodlama.io.rentACar.business.requests.brand.CreateBrandRequest;
-import kodlama.io.rentACar.business.requests.brand.UpdateBrandRequest;
-import kodlama.io.rentACar.business.responses.brand.GetAllBrandsResponse;
-import kodlama.io.rentACar.business.responses.brand.GetByIdBrandsResponse;
+import kodlama.io.rentACar.business.abstracts.CarService;
+import kodlama.io.rentACar.business.requests.car.CreateCarRequest;
+import kodlama.io.rentACar.business.requests.car.UpdateCarRequest;
+import kodlama.io.rentACar.business.responses.car.GetAllCarsResponse;
+import kodlama.io.rentACar.business.responses.car.GetByIdCarResponse;
 import lombok.AllArgsConstructor;
 
 
 @RestController 
-@RequestMapping("/api/brands")
+@RequestMapping("/api/cars")
 @AllArgsConstructor  // constructor injection
-public class BrandsController {
-	private BrandService brandService;
+public class CarsController {
+	
+	private CarService carService;
+
 	
 	@GetMapping()
-	public List<GetAllBrandsResponse> getAll(){
-		return brandService.getAll();
+	public List<GetAllCarsResponse> getAll(){
+		return carService.getAll();
 	}
 	
 	
 	@GetMapping("/{id}")
-	public GetByIdBrandsResponse getById(@PathVariable int id) {
-		return brandService.getById(id);
+	public GetByIdCarResponse getById(@PathVariable int id) {
+		return carService.getById(id);
 	}
 	
 	
 	@PostMapping()
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public void add(@RequestBody() @Valid CreateBrandRequest createBrandRequest) {
-		this.brandService.add(createBrandRequest);
+	public void add(@RequestBody() @Valid CreateCarRequest createCarRequest) {
+		this.carService.add(createCarRequest);
 	}
 	
 	@PutMapping
-	public void update(@RequestBody() UpdateBrandRequest updateBrandRequest) {
-		this.brandService.update(updateBrandRequest);
+	public void update(@RequestBody() UpdateCarRequest updateCarRequest) {
+		this.carService.update(updateCarRequest);
 	}
 	
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable() int id) {
-		brandService.delete(id);
+		carService.delete(id);
 	}
-	
-	
-	
-	
+
+
+
+
+
 }

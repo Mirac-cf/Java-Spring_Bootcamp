@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -15,13 +17,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
-@Table(name="brands")
+@Table(name="models")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Brand {
+public class Model {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)  //id otomatik artsın
@@ -31,6 +33,22 @@ public class Brand {
 	@Column(name = "name")
 	private String name;
 	
-	@OneToMany(mappedBy = "brand")
-	private List<Model> models;
+	@ManyToOne
+	@JoinColumn(name = "brand_id")
+	private Brand brand;
+	
+	@OneToMany(mappedBy = "model")
+	private List<Car> cars;
+	
+	
+	
+	
+	
+	// olduğun tabloda yani class da iliskilendirildigi class ile iliskisinde
+	// yani cok kere tekrarlanıyorsa ManyToOne 
+	// bir kere ise OneToMany
+	// coka bir ise -> ManyToOne 
+	// bire cok ise -> OneToMany
+	
+	
 }

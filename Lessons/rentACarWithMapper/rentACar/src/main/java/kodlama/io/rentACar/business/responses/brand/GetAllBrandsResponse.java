@@ -1,4 +1,4 @@
-package kodlama.io.rentACar.business.responses;
+package kodlama.io.rentACar.business.responses.brand;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

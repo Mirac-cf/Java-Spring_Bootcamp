@@ -1,4 +1,4 @@
-package kodlama.io.rentACar.business.requests;
+package kodlama.io.rentACar.core.utilities.exeptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateBrandRequest {
-	private int id;
-	private String name;
+public class ProblemDetails {
+	String message;
 }
